@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Sparklines, SparklinesLine } from 'react-sparklines'
 import { connect } from 'react-redux'
+import Chart from '@/components/chart'
+import GoogleMap from '@/components/googlemaps'
 
 class WeatherList extends Component { 
     renderWeather(cityData) {
@@ -17,24 +18,20 @@ class WeatherList extends Component {
             const temps = cityData.list.map(tempWeather);
             const pressure = cityData.list.map(pressureWeather);
             const humidity = cityData.list.map(humidityWeather);
-            
+            const {lon, lat} = cityData.city.coord;
+
             return (
                 <tr key = {name}>
-                    <td>{name}</td>
                     <td>
-                    <Sparklines data={temps}>
-                        <SparklinesLine color="red" />
-                    </Sparklines>
+                        <GoogleMap lat = { lat } lon = {lon}/></td>
+                    <td>
+                        <Chart data = { temps } color = "orange" units = "(K)"/>
                     </td>
                     <td>
-                        <Sparklines data={pressure}>
-                            <SparklinesLine color="green" />
-                        </Sparklines>
+                        <Chart data = { pressure } color = "blue" units = "hPa"/>
                     </td>
                     <td>
-                        <Sparklines data={humidity}>
-                            <SparklinesLine color="blue" />
-                        </Sparklines>
+                        <Chart data = { humidity } color = "red" units = "%"/>
                     </td>
                 </tr>
                 
@@ -46,10 +43,10 @@ class WeatherList extends Component {
                 <table className="table table-hover">
                 <thead className="thead-default">
                 <tr>
-                    <th>City</th>
-                    <th>Temperature</th>
-                    <th>Pressure</th>
-                    <th>Humidity</th>
+                    <th width= "25%">City</th>
+                    <th width= "25%">Temperature (K)</th>
+                    <th width= "25%">Pressure (hPa)</th>
+                    <th width= "25%">Humidity (%)</th>
                 </tr>
                 </thead>
                 <tbody>
